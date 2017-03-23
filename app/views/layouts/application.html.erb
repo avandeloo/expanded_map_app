@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
+    <title>eXMapp</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <link href="/css/font-awesome.min.css" rel="stylesheet">
+    
+    <link href="/css/bootstrap.css" rel="stylesheet">
+    
+    <link href="/css/style.css" rel="stylesheet">
+    
+    
+    <script type="javascript" src="/js/jquery-1.10.2.js"></script>
+    <script type="javascript" src="/js/bootstrap.js"></script>
+    <script type="javascript" src="/js/plugins.js"></script>
+    
+    <script src="/js/banzhow.js"></script>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">eXMapp</a>
+          <% if current_user && current_page?('/') %>
+            <div class="btn-group">
+              <button id="start" class="btn btn-primary">Start</button>
+            </div>
+            <div class="btn-group">
+              <button id="reverse" class="btn-warning" style="display: none;">Reverse</button>                 
+            </div>
+            <div class="btn-group">
+              <button id="end" class="btn btn-danger" style="display: none;">End</button>
+            </div>
+            
+              <select id="travel_mode" class="btn btn-success dropdown-toggle" style="display: none;">
+                <option value="DRIVING">Driving</option>
+                <option value="BICYCLING">Bicycling</option>
+                <option value="TRANSIT">Transit</option>
+                <option value="WALKING">Walking</option>
+              </select>
+
+              <select id="transit_mode" class="btn btn-info dropdown-toggle" style="display: none;">
+                <option value="RAIL">Rail</option>
+                <option value="BUS">Bus</option>
+                <option value="TRAIN">Train</option>              
+              </select>
+          
+          <% end %>
+          
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <% if current_user && !current_page?('/markers/new') %>
+                <li><%= link_to "Add New Marker", "/markers/new"%></li>
+              
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+
+                  <ul class="dropdown-menu">
+                  <% if current_user && !current_page?('/markers') %>
+                    <li><a href="/markers">Markers</a></li>
+                  <% end %>
+
+                  <% if current_user && current_page?('/markers') %>
+                    <li><a href="/markers?sort=nickname&sort_order=asc">Sort Name Ascending</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/markers?sort=nickname&sort_order=desc">Sort Name Descending</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/markers?sort=created_at&sort_order=desc">Sort Newest To Oldest</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/markers?sort=created_at&sort_order=asc">Sort Oldest To Newest</a></li>
+                    <li role="separator" class="divider"></li>
+                    <%= form_tag "/markers", method: :get do %>
+                      <%= text_field_tag :search_term %>
+                      <%= submit_tag "Search" %>
+                    <% end %>
+                  <% end %>
+                  <% if current_user %>
+                    <li><a href="/logout">Log Out</a></li>
+                  <% else %>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/signup">Sign Up</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/login">Login</a></li>
+                  <% end %>
+                  </ul>
+                </li>
+            <% end %>
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <% if current_user && current_page?('/') %>
+      <div id="map"></div>
+      <div id="directions_panel" style="display: none;">
+      
+      </div>
+    <% end %>
+    <%=yield%>
+    <footer>
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-3 col-md-3">
+            <a class="footer-brand" href="/">eXMapp</a>
+            <p>Taking the hassel out of your morning commute.</p>
+            <ul class="list-inline list-unstyled social-networks">
+
+              <li>
+                <a href="https://github.com/avandeloo/expanded_map_app">
+                  <div class="icon-social icon-social-github normal">
+                    <i class="fa fa-github"></i>
+                  </div>
+                  <div class="icon-social hover">
+                    <i class="fa fa-github"></i>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <h3>CONTACT</h3>
+            <address>
+              <i class="fa fa-map-marker"></i> 2844 Sugar Pine Circle, Northbrook, IL 60062<br>
+              <i class="fa fa-phone"></i> (224) 639-3938<br>
+              <i class="fa fa-envelope"></i> anthony.vandeloo@gmail.com
+            </address>
+          </div>
+          
+          <div class="col-lg-3 col-md-3">
+            
+          </div>
+
+          <div class="col-lg-3 col-md-3">
+            
+          </div>
+        </div>
+
+      </div>
+    </footer>
+
+    <div class="footer-after">
+      <div class="container">
+        <div class="row">
+          <p class="col-md-10">©2017 All rights reserved</p>
+          <p class="col-md-2 legal"><a href="#" rel="nofollow">Legal Notice</a></p>
+        </div>
+      </div>
+    </div>
+    <% flash.each do |name, message| %>
+      <div class="alert alert-<%= name %> alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong><%= name.upcase %></strong> <%= message %>
+      </div>
+    <% end %>
+
+  </body>
+</html>

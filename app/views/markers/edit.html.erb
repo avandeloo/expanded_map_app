@@ -1,0 +1,46 @@
+<div id="form_content" class="well">
+  
+  <h1><%= @marker.nickname %></h1>
+
+  <%= form_tag "/markers/#{@marker.id}", method: :patch do %>
+    <div>
+      <%= label_tag :nickname %>:
+      <%= text_field_tag :nickname, @marker.nickname %>
+    </div>
+        
+    <div>
+      <%= label_tag :address_line1 %>:
+      <%= text_field_tag :address_line1, @marker.address_line1 %>
+    </div>
+
+    <div>
+      <%= label_tag :address_line2 %>:
+      <%= text_field_tag :address_line2, @marker.address_line2 %>
+    </div>
+
+    <div>
+      <%= label_tag :latitude %>:
+      <%= text_field_tag :latitude, @marker.latitude %>
+    </div>
+
+    <div>
+      <%= label_tag :longitude %>:
+      <%= text_field_tag :longitude, @marker.longitude %>
+    </div>
+      
+    <div>
+      <%= label_tag :marker_role %>
+      <%= select("marker", "marker_role", options_for_select([["Origin", 0], ["Work", 1], ["Home", 2]]), include_blank: "Select Role")%>
+    </div>
+
+    <div>
+      <%= label_tag :user_id %>
+      <%= text_field_tag :user_id, @marker.user_id %>
+    </div>
+
+    <br>
+    
+    <button id="submitBtn" class="btn btn-primary">Submit</button>
+
+  <% end %>
+</div>

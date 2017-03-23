@@ -1,0 +1,13 @@
+<div id="form_content" class="well">
+  <h1><%= @marker.nickname %></h1>
+  <h5>Marker Role: <%= @marker.marker_role %></h5>
+  <h5>User Id: <%= @marker.user_id %></h5> 
+  <h3>Address1: <%= @marker.address_line1 %></h3>
+  <h3>Address2: <%= @marker.address_line2 %></h3>
+  <h3>Latitude: <%= @marker.latitude %></h3>
+  <h3>Longitude: <%= @marker.longitude %></h3>
+  <br>
+  <%= link_to "Edit", "/markers/#{@marker.id}/edit", class: "btn btn-info" %>
+  <%= link_to "Delete", "/markers/#{@marker.id}", class: "btn btn-danger", method: :delete %>
+  
+</div>

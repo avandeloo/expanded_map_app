@@ -1,0 +1,112 @@
+#map {
+  height: 140%;
+}
+
+#currentRoute {
+  height: 0px;
+}
+
+h1 {
+  text-align: center;
+}
+
+#address_info1 {
+  font-size: 11px;
+  text-align: center;
+  width: 285px;
+}
+
+#address_info2 {
+  font-size: 11px;
+  text-align: center;
+  width: 305px;
+}
+
+#start, #reverse, #end {
+  height: 60px;
+  padding: 10px 20px;
+  font-size: 24px;
+
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+}
+
+#travel_mode, #transit_mode {
+  height: 45px;
+  font-size: 24px;
+   -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+}
+
+#current_route {
+  height: 0;
+}
+
+.view-link, .warnbox-content, .warnbox-content-c1, .warnbox-content-c2, .warnbox-c1, .warnbox-c2, .adp-legal {
+  display:none !important;
+}
+
+#travelMode {
+  padding: 1px;
+}
+
+.user_id {
+  display: none;
+}
+
+.adp-directions {
+  margin: auto;
+  font-size: 150%;
+}
+
+td.adp-text {
+  font-size: 150%;
+}
+
+td {
+  
+  width: auto;
+}
+
+.adp-summary {
+  text-align: center;
+  font-size: 150%;
+}
+
+.adp-text {
+  text-align: center;
+  
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#m {
+  display: none;
+}
+
+#new_form {
+  margin: auto;
+  width: 300px;
+
+}
+
+#breaks {
+  height: 10px;
+}
+
+label{
+    display:inline-block;
+    width:100px;
+    text-align: right;
+}
+
+#form_content {
+  margin: auto;
+  width: 400px;
+}

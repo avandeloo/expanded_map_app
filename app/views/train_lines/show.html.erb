@@ -1,0 +1,5 @@
+<h2><%= @train_line.name %></h2>
+<h5>User Id: <%= @train_line.user_id %></h5>
+
+<%= link_to "Edit", "/train_lines/#{@train_line.id}/edit", class: "btn btn-info" %>
+<%= link_to "Delete", "/train_lines/#{@train_line.id}", class: "btn btn-danger", method: :delete %>

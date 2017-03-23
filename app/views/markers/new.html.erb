@@ -1,0 +1,107 @@
+<div id="new_form" class="well">
+  <h1>New Marker</h1>
+  <br>
+  <div>
+    <div>
+      <label>Nickname:</label> <input type="text" id="nickname">
+    </div>
+    <div id="breaks"></div>
+    <div>
+      <label>Address Line 1:</label> <input type="text" id="address_line1">
+    </div>
+    <div id="address_info1">
+      Street Address
+    </div>
+    <div id="breaks"></div>
+    <div>
+      <label>Address Line 2:</label> <input type="text" id="address_line2">
+    </div>
+    <div id="address_info2">
+      City, State, Zip, etc.
+    </div>
+    
+  </div>
+  <br>
+  <button id="submitBtn" class="btn btn-primary">Submit</button>
+  <button id="geolocate" class="btn btn-info">Locate Me</button>
+</div>
+<div id="m"></div>
+
+<script>
+  $("#submitBtn").click(function() {
+    function locateMarker() {
+      var nickname = document.getElementById('nickname').value;
+      if (nickname === null) {
+        nickname = "Work";
+      }; 
+      var address_line1 = document.getElementById('address_line1').value;
+      var address_line2 = document.getElementById('address_line2').value;
+      var full_address  = address_line1 + " " + address_line2;
+
+      var marker_role = 1;
+      var lat;
+      var lng;
+      
+      $.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + full_address + '&key=<%= ENV['API_HOST_GEOCODING_KEY'] %>', function(response) {
+        var locationResponse = response[
+        "results"][0]["geometry"]["location"];
+        lat = locationResponse.lat;
+        lng = locationResponse.lng;
+        
+
+        $.post("/api/v1/markers.json", { nickname: nickname, latitude: lat, longitude: lng, address_line1: address_line1, address_line2: address_line2, marker_role: marker_role }, function(marker){
+          console.log(marker.message);
+          
+        });
+       });
+    };
+
+    locateMarker();
+  });
+
+  $("#geolocate").click(function(){
+      var nickname = "Work";
+      var address_line1;
+      var address_line2;
+      var marker_role = 1;
+      var lat;
+      var lng;
+      var address;
+      var latlng;
+
+      function findCurrentPosition() {
+        
+        var geocoder = new google.maps.Geocoder;
+
+        navigator.geolocation.getCurrentPosition(function(position) {
+          
+          lat = position.coords.latitude;
+          lng = position.coords.longitude;
+          
+          latlng = {lat: lat, lng: lng};
+
+          geocoder.geocode({'location': latlng}, function(results, status) {
+            address = results[1].formatted_address;
+            formatted_address = address.split(", ");
+            
+            address_line1 = formatted_address[0];
+            
+            address_line2 = formatted_address[1] + ", " + formatted_address[2];
+            
+
+            $.post("/api/v1/markers.json", { nickname: nickname, latitude: lat, longitude: lng, address_line1: address_line1, address_line2: address_line2, marker_role: marker_role }, function(marker){
+              console.log(marker.message);
+              
+            });
+
+          });
+
+        });
+      };
+      findCurrentPosition();
+    });
+
+</script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['API_HOST_INIT_MAP_KEY'] %>&callback">
+        </script>

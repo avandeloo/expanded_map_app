@@ -1,0 +1,1 @@
+json.array! @markers, partial: 'marker', as: :marker

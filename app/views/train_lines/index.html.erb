@@ -1,0 +1,6 @@
+<h1>Train Lines</h1>
+
+
+<% @train_lines.each do |train_line| %>
+  <h2><a href="/train_lines/<%= train_line.id %>" class = link><%= train_line.name %></a></h2>
+<% end %>

@@ -1,0 +1,16 @@
+<h1>New Train Line</h1>
+
+<%= form_tag "/train_lines", method: :post do %>
+  <div>
+    <%= label_tag :name %>:
+    <%= text_field_tag :name, @train_line.name %>
+  </div>
+      
+  <div>
+    <%= label_tag :user_id %>:
+    <%= text_field_tag :user_id, @train_line.user_id %>
+  </div>
+
+  <input type="Submit" name="Create New Marker" class = "submitBtn">
+
+<% end %>
