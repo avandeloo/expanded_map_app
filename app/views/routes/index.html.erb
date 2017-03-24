@@ -54,13 +54,13 @@
                     }]
         });
         var marker = new google.maps.Marker({
-                         map: map
-                       });
+          map: map
+        });
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer({
           draggable: true,
           map: map,
-          panel: document.getElementById('directions_panel')
+          
         });
         directionsDisplay.setMap(map);
 
@@ -85,9 +85,9 @@
         });
 
         google.maps.event.addDomListener(window, 'resize', function() {
-            var center = map.getCenter();
-            google.maps.event.trigger(map, "resize");
-            map.setCenter(center);
+          var center = map.getCenter();
+          google.maps.event.trigger(map, "resize");
+          map.setCenter(center);
         });
 
         $("#start").click(function(){

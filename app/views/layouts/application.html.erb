@@ -110,7 +110,7 @@
         </div>
       </div>
     </nav>
-    <% if current_user && current_page?('/') %>
+    <% if current_user && current_page?('/') || current_page?('/location') %>
       <div id="map"></div>
       <div id="directions_panel" style="display: none;">
       
