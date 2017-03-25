@@ -27,7 +27,7 @@
   </head>
 
   <body>
-    <div id="currentRoute" style="visibility: hidden"><%= current_user.current_route.id %></div>
+    <div id="currentRoute" style="visibility: hidden"><% if current_user && current_user.current_route == true %><%= current_user.current_route.id %> <% end %></div>
 
     <nav class="navbar navbar-fixed-top navbar-inverse" role="navigation">
       <div class="container">
