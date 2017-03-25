@@ -8,6 +8,10 @@ class RoutesController < ApplicationController
     
   end
 
+  def location2
+    
+  end
+
   def new
     @route = Route.new
   end

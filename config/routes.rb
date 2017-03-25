@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   get '/' => 'routes#index'
   get '/location' => 'routes#location'
-
+  get '/location2' => 'routes#location2'
   # get '/train_lines' => 'train_lines#index'
   # get '/train_lines/new' => 'train_lines#new'
   # post '/train_lines' => 'train_lines#create'

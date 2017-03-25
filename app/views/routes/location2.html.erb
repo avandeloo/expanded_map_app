@@ -9,44 +9,50 @@
     <script>
       
       document.getElementById('travel_mode').addEventListener('change', function () {
-        var style = this.value === "TRANSIT" ? 'inline' : 'none';
-        document.getElementById('transit_mode').style.display = style;
+          var style = this.value === "TRANSIT" ? 'inline' : 'none';
+          document.getElementById('transit_mode').style.display = style;
       });
 
       document.getElementById('start').addEventListener('click', function () {
-        document.getElementById('end').style.display = 'inline';
-        document.getElementById('reverse').style.display = 'inline';
-        document.getElementById('travel_mode').style.display = 'inline';
-        document.getElementById('directions_panel').style.display = 'inline'
-        this.style.display = 'none';
+          document.getElementById('end').style.display = 'inline';
+          document.getElementById('reverse').style.display = 'inline';
+          document.getElementById('travel_mode').style.display = 'inline';
+          document.getElementById('directions_panel').style.display = 'inline'
+          this.style.display = 'none';
       });
 
       document.getElementById('reverse').addEventListener('click', function () {
-        this.style.display = 'none';
+          this.style.display = 'none';
 
       });
 
-      document.getElementById('end').addEventListener('click', function () {          
-        window.location.reload();
+      document.getElementById('end').addEventListener('click', function () {
+          document.getElementById('start').style.display = 'inline';
+          document.getElementById('travel_mode').style.display = 'none';
+          document.getElementById('reverse').style.display = 'none';
+          document.getElementById('transit_mode').style.display = 'none';
+          document.getElementById('directions_panel').style.display = 'none'
+          this.style.display = 'none';          
+          window.location.reload();
           
       });      
 
       function initMap() {
         var current_route_id = document.getElementById("currentRoute").innerHTML;
         var map = new google.maps.Map(document.getElementById('map'), {
-          center: {lat: 39.8, lng: -98.7129},
-          zoom: 5,
-          fullscreenControl: true,
-          zoomControl: true,
-          mapTypeControl: true,
-          streetViewControl: false,
-          scrollwheel: false,
-          styles: [{ 
-                      "featureType": "all", 
-                      "elementType": "all", 
-                      "stylers": [ { "invert_lightness": true }, { "saturation": 10 }, { "lightness": 30 }, { "gamma": 0.5 }, { "hue": "#435158" } ] 
-                  }]
-        });
+            center: {lat: 39.8, lng: -98.7129},
+            zoom: 5,
+            fullscreenControl: true,
+            zoomControl: true,
+            mapTypeControl: true,
+            streetViewControl: false,
+            scrollwheel: false,
+            styles: [{ 
+                        "featureType": "all", 
+                        "elementType": "all", 
+                        "stylers": [ { "invert_lightness": true }, { "saturation": 10 }, { "lightness": 30 }, { "gamma": 0.5 }, { "hue": "#435158" } ] 
+                    }]
+          });
         var marker = new google.maps.Marker({
                          map: map
                        });
