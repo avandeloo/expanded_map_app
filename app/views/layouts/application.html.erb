@@ -70,12 +70,13 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right">
             <% if current_user && !current_page?('/markers/new') %>
-                <li><%= link_to "Add New Marker", "/markers/new"%></li>
+                <li><%= link_to "Add Marker", "/markers/new"%></li>
               
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
 
                   <ul class="dropdown-menu">
+                    <li><a href="/location">Location</a></li>
                   <% if current_user && !current_page?('/markers') %>
                     <li><a href="/markers">Markers</a></li>
                   <% end %>
