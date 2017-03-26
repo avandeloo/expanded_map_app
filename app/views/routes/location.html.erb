@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <head> 
-<title>location</title>
+<title>Location</title>
 </head>
 <body> 
-<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=<%= ENV['API_HOST_INIT_MAP_KEY'] %>&libraries=geometry&callback=initMap"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=<%= ENV['API_HOST_INIT_MAP_KEY'] %>&libraries=geometry"></script>
 
 <script>
 
-  var currentPositionMarker;
+  var origin;
+  var destination;
+  var currentLocation;
+  var polyline;
 
-  var count = 0;
   var map;
   var directionsDisplay = new google.maps.DirectionsRenderer({
     draggable: true,
@@ -31,7 +33,6 @@
     document.getElementById('travel_mode').style.display = 'inline';
     document.getElementById('directions_panel').style.display = 'inline'
     this.style.display = 'none';
-
   });
 
   document.getElementById('reverse').addEventListener('click', function () {
@@ -45,23 +46,48 @@
   }); 
 
   document.getElementById('travel_mode').addEventListener('change', function() {
-    $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
-      var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
-      var endPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
-      
-      calcRoute(startPoint, endPoint);
-    });
+    if (document.getElementById('reverse').style.display === 'inline') {
+      $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
+        var startPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
+        var endPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
+        clearMap();
+        calcRoute(startPoint, endPoint);
+      });
+    } else {
+      $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
+        var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
+        var endPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
+        clearMap();
+        calcRoute(startPoint, endPoint);
+      });
+    };
     
   });
 
   document.getElementById('transit_mode').addEventListener('change', function() { 
-    $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
-      var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
-      var endPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
-      
-      calcRoute(startPoint, endPoint);
-    });
+    if (document.getElementById('reverse').style.display === 'inline') {
+      $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
+        var startPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
+        var endPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
+        clearMap();
+        calcRoute(startPoint, endPoint);
+      });
+    } else {
+      $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
+        var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
+        var endPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
+        clearMap();
+        calcRoute(startPoint, endPoint);
+      });
+    };
   });
+
+  function clearMap () {
+    origin.setMap(null);
+    destination.setMap(null);
+    currentLocation.setMap(null);
+    polyline.setMap(null);
+  };
 
   function initialize() {
       
@@ -90,17 +116,16 @@
       
       calcRoute(startPoint, endPoint);
     });
-    initLocationProcedure();
   });
 
   $("#reverse").click(function(){
+    clearMap();
     $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
       var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
       var endPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
       
       calcRoute(startPoint, endPoint);
     });
-    initLocationProcedure();
   });
 
   google.maps.event.addDomListener(window, "load", initialize);
@@ -154,33 +179,31 @@
       };
     };
 
-    var origin = new google.maps.Marker({
+    origin = new google.maps.Marker({
       position: legs[0].start_location,
       draggable: false,
       label: 'A',
-      title: "Origin",
       map: map
     });
 
-    var destination = new google.maps.Marker({
+    destination = new google.maps.Marker({
       position: legs[0].end_location,
       draggable: false,
       label: 'B',
-      title: "Destination",
       map: map
     });
          
-    // var currentLocation = new google.maps.Marker({
-    //   position: legs[0].start_location,
-    //   draggable: true,
-    //   map: map
-    // });
+    currentLocation = new google.maps.Marker({
+      position: legs[0].start_location,
+      draggable: true,
+      map: map
+    });
 
     var decodedPath = google.maps.geometry.encoding.decodePath(encodedPath); 
 
     var decodedLevels = decodeLevels("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 
-    var polyline = new google.maps.Polyline({
+    polyline = new google.maps.Polyline({
       path: decodedPath,
       levels: decodedLevels,
       strokeColor: "#04E522",
@@ -191,7 +214,7 @@
 
     polyline.setMap(map);
     map.fitBounds(bounds);
-    var snapToRoute = new SnapToRoute(map, currentPositionMarker, polyline);
+    var snapToRoute = new SnapToRoute(map, currentLocation, polyline);
 
   };
 
@@ -253,37 +276,6 @@
     };
   };
 
-  // current position of the user
-  function setCurrentPosition(pos) {
-    currentPositionMarker = new google.maps.Marker({
-      map: map,
-      position: { lat: pos.coords.latitude, lng: pos.coords.longitude },
-      title: "Current Position"
-    });
-    map.panTo(new google.maps.LatLng(
-      pos.coords.latitude,
-      pos.coords.longitude
-    ));
-  };
-
-  function displayAndWatch(position) {       
-    // set current position
-    setCurrentPosition(position);
-     
-    // watch position
-    watchCurrentPosition();
-  };
-
-  function watchCurrentPosition() {
-    var positionTimer = navigator.geolocation.watchPosition(function (position) {
-      setMarkerPosition(currentPositionMarker, position);
-    });
-  };
-   
-  function setMarkerPosition(marker, position) {
-    marker.setPosition(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-  };
-
   SnapToRoute.prototype.updateMarkerLocation_ = function (mouseLatLng) {
     var markerLatLng = this.getClosestLatLng(mouseLatLng);
     this.marker_.setPosition(markerLatLng);
@@ -293,14 +285,6 @@
     var r = this.distanceToLines_(latlng);
     return this.normalProj_.fromPointToLatLng(new google.maps.Point(r.x, r.y));
   };
-
-  // SnapToRoute.prototype.getDistAlongRoute = function (latlng) {
-  //     if (typeof (opt_latlng) === 'undefined') {
-  //         latlng = this.marker_.getLatLng();
-  //     }
-  //     var r = this.distanceToLines_(latlng);
-  //     return this.getDistToLine_(r.i, r.to);
-  // };
 
   SnapToRoute.prototype.distanceToLines_ = function (mouseLatLng) {
     var zoom = this.map_.getZoom();
@@ -374,21 +358,6 @@
       'to': to,
       'from': from
     };
-  };
-
-  function locError(error) {
-    // tell the user if the current position could not be located
-    alert("The current position could not be found!");
-  };
-   
-
-  function initLocationProcedure() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(displayAndWatch, locError);
-    } else {
-      // tell the user if a browser doesn't support this amazing API
-      alert("Your browser does not support the Geolocation API!");
-    }
   };
 
 </script> 

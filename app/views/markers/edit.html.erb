@@ -33,7 +33,7 @@
       <%= select("marker", "marker_role", options_for_select([["Origin", 0], ["Work", 1], ["Home", 2]]), include_blank: "Select Role")%>
     </div>
 
-    <div>
+    <div style="visibility: hidden">
       <%= label_tag :user_id %>
       <%= text_field_tag :user_id, @marker.user_id %>
     </div>
