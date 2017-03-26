@@ -7,6 +7,8 @@
 
 <script>
 
+  var decodedPath;
+  var decodedLevels;
   var origin;
   var destination;
   var currentLocation;
@@ -15,7 +17,8 @@
   var map;
   var directionsDisplay = new google.maps.DirectionsRenderer({
     draggable: true,
-    map: map,        
+    map: map,
+    panel: document.getElementById('directions_panel')
   });
   var directionsService = new google.maps.DirectionsService;
   directionsDisplay.setMap(map);
@@ -97,7 +100,7 @@
       maptypeId: 'roadmap',
       fullscreenControl: true,
       zoomControl: true,
-      mapTypeControl: true,
+      mapTypeControl: false,
       streetViewControl: false,
       scrollwheel: false,
       styles: [{ 
@@ -151,6 +154,7 @@
     };
     directionsService.route(request, function (response, status) {
       if (status == google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
         renderRoute(response);
 
       };
@@ -199,9 +203,9 @@
       map: map
     });
 
-    var decodedPath = google.maps.geometry.encoding.decodePath(encodedPath); 
+    decodedPath = google.maps.geometry.encoding.decodePath(encodedPath); 
 
-    var decodedLevels = decodeLevels("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+    decodedLevels = decodeLevels("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
 
     polyline = new google.maps.Polyline({
       path: decodedPath,
@@ -244,11 +248,11 @@
     this.loadMapListener_();
   };
 
-  // SnapToRoute.prototype.updateTargets = function (marker, polyline) {
-  //     this.marker_ = marker || this.marker_;
-  //     this.polyline_ = polyline || this.polyline_;
-  //     this.loadLineData_();
-  // };
+  SnapToRoute.prototype.updateTargets = function (marker, polyline) {
+      this.marker_ = marker || this.marker_;
+      this.polyline_ = polyline || this.polyline_;
+      this.loadLineData_();
+  };
 
   SnapToRoute.prototype.loadMapListener_ = function () {
     var me = this;
