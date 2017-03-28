@@ -59,22 +59,40 @@
 
         document.getElementById('travel_mode').addEventListener('change', function() {
                     
-          $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
-            var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
-            var endPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
-            
-            determineRoute(directionsService, directionsDisplay, startPoint, endPoint);
-          });
+          if (document.getElementById('reverse').style.display === 'inline') {
+            $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
+              var startPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
+              var endPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
+              
+              determineRoute(directionsService, directionsDisplay, startPoint, endPoint);
+            });
+          } else {
+            $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
+              var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
+              var endPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
+              
+              determineRoute(directionsService, directionsDisplay, startPoint, endPoint);
+            });
+          };
           
         });
 
         document.getElementById('transit_mode').addEventListener('change', function() { 
-          $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
-            var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
-            var endPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
-            
-            determineRoute(directionsService, directionsDisplay, startPoint, endPoint);
-          });
+          if (document.getElementById('reverse').style.display === 'inline') {
+            $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
+              var startPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
+              var endPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
+              
+              determineRoute(directionsService, directionsDisplay, startPoint, endPoint);
+            });
+          } else {
+            $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
+              var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
+              var endPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
+              
+              determineRoute(directionsService, directionsDisplay, startPoint, endPoint);
+            });
+          };
         });
 
         google.maps.event.addDomListener(window, 'resize', function() {
