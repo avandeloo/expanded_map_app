@@ -8,7 +8,7 @@ class RoutesController < ApplicationController
     
   end
 
-  def location3
+  def location2
     
   end
 
