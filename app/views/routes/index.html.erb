@@ -103,7 +103,7 @@
 
               function geolocateLocation(geocoder, map, infowindow) {
                 var latlng = {lat: lat, lng: lng};
-                geocoder.geocode({'location': latlng}, function(results, status) {
+                geocoder.geocode({'location': latlng}, function(results) {
                   address = results[0].formatted_address;
                   
                   formatted_address = address.split(", ");
@@ -122,6 +122,7 @@
                     lng = parseFloat(route.destination.longitude); 
                     
                     var endPoint = {lat: lat, lng: lng};
+                    document.getElementById("currentRoute").innerHTML = route.id;
                     
                     determineRoute(directionsService, directionsDisplay, startPoint, endPoint);
                     
@@ -140,7 +141,8 @@
 
         $("#reverse").click(function(){
           
-          var current_route_id = document.getElementById("currentRoute").innerHTML;   
+          var current_route_id = document.getElementById("currentRoute").innerHTML; 
+
           function reverseRoute() {
             $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
               var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
