@@ -1,5 +1,6 @@
-<div class="well">
+<div id="new_form" class="well">
   <h1>Login</h1>
+  <br>
   <%= form_tag '/login', method: :post do %>
     <div>
       <%= label_tag :email %>:
@@ -9,8 +10,9 @@
       <%= label_tag :password %>:
       <%= password_field_tag :password %>
     </div>
-    <div id="loginBtn">
-      <%= submit_tag "Submit" %>
+    <br>
+    <div>
+      <%= button_tag "Login", :name => "Submit", :class => 'btn btn-info' %> <%= button_tag "Sign Up", :name => "Signup", :class => 'btn btn-primary' %>  
     </div>
   <% end %>
 </div>

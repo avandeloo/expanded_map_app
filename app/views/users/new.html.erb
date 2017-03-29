@@ -1,26 +1,28 @@
-<div class="well">
+<div id="new_form" class="well">
   <h1>Signup</h1>
+  <br>
   <%= form_tag '/users', method: :post do  %>
     <div>
-      <%= label_tag :first_name %>
+      <%= label_tag :first_name %>:
       <%= text_field_tag :first_name %>
     </div>
     <div>
-      <%= label_tag :last_name %>
+      <%= label_tag :last_name %>:
       <%= text_field_tag :last_name %>
     </div>
     <div>
-      <%= label_tag :email %>
+      <%= label_tag :email %>:
       <%= text_field_tag :email %>
     </div>
     <div>
-      <%= label_tag :password %>
+      <%= label_tag :password %>:
       <%= password_field_tag :password %>
     </div>
     <div>
-      <%= label_tag :password_confirmation %>
+      <%= label_tag :password_confirmation %>:
       <%= password_field_tag :password_confirmation %>
     </div>
-    <%= submit_tag "Submit" %>
+    <br>
+    <%= submit_tag "Submit", :class => "btn btn-info" %>
   <% end %>
 </div>

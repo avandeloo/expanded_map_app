@@ -21,8 +21,6 @@
     <script type="javascript" src="/js/jquery-1.10.2.js"></script>
     <script type="javascript" src="/js/bootstrap.js"></script>
     <script type="javascript" src="/js/plugins.js"></script>
-    
-    <script src="/js/banzhow.js"></script>
 
   </head>
 
@@ -66,7 +64,7 @@
               </select>
           
           <% end %>
-          
+          <% if current_user %>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
@@ -74,7 +72,7 @@
               <span class="icon-bar"></span>
             </button>
           </div>
-
+        
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right">
             <% if current_user && !current_page?('/markers/new') %>
@@ -84,7 +82,9 @@
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
 
                   <ul class="dropdown-menu">
+                  <% if !current_page?('/location') %>
                     <li><a href="/location">Location</a></li>
+                  <% end %>
                   <% if current_user && !current_page?('/markers') %>
                     <li><a href="/markers">Markers</a></li>
                   <% end %>
@@ -117,6 +117,7 @@
             
           </ul>
         </div>
+        <% end %>
       </div>
     </nav>
     <% if current_user && current_page?('/') || current_page?('/location') || current_page?('/location2') %>
@@ -177,6 +178,5 @@
       </div>
     </div>
     
-
   </body>
 </html>

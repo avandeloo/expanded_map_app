@@ -56,7 +56,9 @@
       });
     };
 
-    locateMarker();
+    locateMarker().then(function(){
+      window.location.replace("/")
+    });
   });
 
   $("#geolocate").click(function(){

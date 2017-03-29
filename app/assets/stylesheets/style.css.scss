@@ -10,28 +10,31 @@
   text-align: center;
 }
 
-#loginBtn {
-
-}
-
 #alert {
   float: top;
 };
 
 .well {
   text-align: center;
+
+}
+
+#loginBtn {
+  text-indent: -150px;
 }
 
 #address_info1 {
   font-size: 11px;
   text-align: center;
-  width: 285px;
+  width: auto;
+  text-indent: 30px;
 }
 
 #address_info2 {
   font-size: 11px;
   text-align: center;
-  width: 305px;
+  width: auto;
+  text-indent: 50px;
 }
 
 #start, #reverse, #end {
@@ -103,8 +106,8 @@ html, body {
 }
 
 #new_form {
-  margin: auto;
-  width: 300px;
+  margin: 0;
+  width: auto;
 
 }
 

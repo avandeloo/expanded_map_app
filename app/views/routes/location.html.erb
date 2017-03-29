@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head> 
-<title>Location</title>
+  <title>Location</title>
 </head>
 <body> 
 
@@ -110,6 +110,14 @@
     });
   };
 
+  google.maps.event.addDomListener(window, "load", initialize);
+
+  google.maps.event.addDomListener(window, 'resize', function() {
+    var center = map.getCenter();
+    google.maps.event.trigger(map, "resize");
+    map.setCenter(center);
+  });
+  
   $("#start").click(function(){
     $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
       var startPoint = { lat: parseFloat(route["origin"]["latitude"]), lng: parseFloat(route["origin"]["longitude"]) };
@@ -129,13 +137,6 @@
     });
   });
 
-  google.maps.event.addDomListener(window, "load", initialize);
-
-  google.maps.event.addDomListener(window, 'resize', function() {
-    var center = map.getCenter();
-    google.maps.event.trigger(map, "resize");
-    map.setCenter(center);
-  });
 
   function calcRoute(start, end) {
     

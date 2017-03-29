@@ -5,6 +5,7 @@
   <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.4.1.min.js"></script>
 </head>
 <body>
+
 <script>
 
   window.lat; 
@@ -17,18 +18,6 @@
     publishKey: "<%= ENV['API_HOST_PUBNUB_PUBLISH_KEY'] %>",
     subscribeKey: "<%= ENV['API_HOST_PUBNUB_SUBSCRIBE_KEY'] %>"
   });
-         
-  pubnub.addListener({
-    message: function(message) {
-      redraw(message);
-    }
-  });
-
-  pubnub.subscribe({
-    channels: [pnChannel]
-  });
-
-  // pubnub.addListener({message: redraw});
 
   document.getElementById('travel_mode').addEventListener('change', function () {
     var style = this.value === "TRANSIT" ? 'inline' : 'none';
@@ -53,7 +42,7 @@
       
   });      
 
-  function initMap() {
+  function initialize() {
     var current_route_id = document.getElementById("currentRoute").innerHTML;
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 39.8, lng: -98.7129},
@@ -145,6 +134,7 @@
 
       };
       findCurrentPosition();
+
     });
 
     $("#reverse").click(function(){
@@ -228,11 +218,11 @@
       
   setInterval(function(){
     storePosition(getLocation());
-  }, 10000);
+  }, 5000);
 
 
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['API_HOST_INIT_MAP_KEY'] %>&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['API_HOST_INIT_MAP_KEY'] %>&callback=initialize"></script>
   </body>
 </html>
     
