@@ -3,15 +3,21 @@
   <br>
   <div>
     <div>
-      <label>Nickname:</label> <input type="text" id="nickname" placeholder="E.g. Work">
+      <label>Nickname:</label> <input type="text" id="nickname">
     </div>
     <div id="breaks"></div>
     <div>
-      <label>Address:</label> <input type="text" placeholder="Street Address">
+      <label>Address:</label> <input type="text" id="address_line1">
+    </div>
+    <div id="address_info1">
+      Street Address
     </div>
     <div id="breaks"></div>
     <div>
-      <label>City/State:</label> <input type="text" placeholder="City, State, Zip, etc.">
+      <label>City/State:</label> <input type="text" id="address_line2">
+    </div>
+    <div id="address_info2">
+      City, State, Zip, etc.
     </div>
     
   </div>
@@ -31,7 +37,6 @@
       var address_line1 = document.getElementById('address_line1').value;
       var address_line2 = document.getElementById('address_line2').value;
       var full_address  = address_line1 + " " + address_line2;
-
       var marker_role = 1;
       var lat;
       var lng;
@@ -42,19 +47,16 @@
         lat = locationResponse.lat;
         lng = locationResponse.lng;
         
-
         $.post("/api/v1/markers.json", { nickname: nickname, latitude: lat, longitude: lng, address_line1: address_line1, address_line2: address_line2, marker_role: marker_role }, function(marker){
           console.log(marker.message);
           
         });
       });
     };
-
     locateMarker();
     window.location('/');
     
   });
-
 </script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['API_HOST_INIT_MAP_KEY'] %>&callback">
