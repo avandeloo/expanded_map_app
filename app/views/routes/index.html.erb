@@ -11,14 +11,11 @@
   var map;
   var directionsDisplay;
   var directionsService;
-
   var current_route_id = document.getElementById("currentRoute").innerHTML;
-
   document.getElementById('travel_mode').addEventListener('change', function () {
     var style = this.value === "TRANSIT" ? 'inline' : 'none';
     document.getElementById('transit_mode').style.display = style;
   });
-
   document.getElementById('start').addEventListener('click', function () {
     document.getElementById('end').style.display = 'inline';
     document.getElementById('reverse').style.display = 'inline';
@@ -26,17 +23,13 @@
     document.getElementById('directions_panel').style.display = 'inline'
     this.style.display = 'none';
   });
-
   document.getElementById('reverse').addEventListener('click', function () {
     this.style.display = 'none';
-
   });
-
   document.getElementById('end').addEventListener('click', function () {          
     window.location.reload();
       
   });      
-
   document.getElementById('travel_mode').addEventListener('change', function() {
     if (document.getElementById('reverse').style.display === 'inline') {
       $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
@@ -55,7 +48,6 @@
     };
     
   });
-
   document.getElementById('transit_mode').addEventListener('change', function() { 
     if (document.getElementById('reverse').style.display === 'inline') {
       $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
@@ -73,7 +65,6 @@
       });
     };
   });
-
   function initialize() {
       
     map = new google.maps.Map(document.getElementById("map"), {
@@ -95,21 +86,16 @@
       map: map,
       panel: document.getElementById('directions_panel')
     });
-
     directionsService = new google.maps.DirectionsService;
     directionsDisplay.setMap(map);
   };
-
   google.maps.event.addDomListener(window, "load", initialize);
-
   google.maps.event.addDomListener(window, 'resize', function() {
     var center = map.getCenter();
     google.maps.event.trigger(map, "resize");
     map.setCenter(center);
   });
-
   $("#start").click(function(){
-
     function findCurrentPosition() {
       var nickname = "Origin";
       var address_line1;
@@ -121,12 +107,10 @@
       var latlng;
       
       var geocoder = new google.maps.Geocoder;
-
       navigator.geolocation.getCurrentPosition(function(position) {
         lat = position.coords.latitude;
         lng = position.coords.longitude;
         latlng = {lat: lat, lng: lng};
-
         geocoder.geocode({'location': latlng}, function(results) {
           address = results[0].formatted_address;
           
@@ -139,14 +123,11 @@
             
             lat = parseFloat(route.origin.latitude);                    
             lng = parseFloat(route.origin.longitude);                     
-
             var startPoint = {lat: lat, lng: lng};                    
-
             lat = parseFloat(route.destination.latitude);                    
             lng = parseFloat(route.destination.longitude); 
             
             var endPoint = {lat: lat, lng: lng};
-
             document.getElementById("currentRoute").innerHTML = route.id;
             
             determineRoute(directionsService, directionsDisplay, startPoint, endPoint);
@@ -158,11 +139,9 @@
     };
     findCurrentPosition();
   });
-
   $("#reverse").click(function(){
     
     var current_route_id = document.getElementById("currentRoute").innerHTML; 
-
     function reverseRoute() {
       $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
         var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };
@@ -174,17 +153,13 @@
     };
     reverseRoute();
   });
-
   $("#end").click(function(){
-
     if (directionsDisplay != null) {
       directionsDisplay.setMap(null);
       directionsDisplay = null;
       document.getElementById('directions_panel').innerHTML = "";
     };
-
   });
-
   function determineRoute(directionsService, directionsDisplay, startPoint, endPoint) {
     var selectedTravelMode = document.getElementById('travel_mode').value;
     var selectedTransitMode = document.getElementById('transit_mode').value;
@@ -195,7 +170,6 @@
       transitOptions: {
         modes: [selectedTransitMode]
       }
-
     }, function(response, status) {
       if (status === 'OK') {
         directionsDisplay.setDirections(response);
@@ -204,7 +178,6 @@
       }
     });
   };
-
 </script>
     
 </body>

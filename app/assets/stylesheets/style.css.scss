@@ -1,5 +1,7 @@
 #map {
   height: 140%;
+  index: 0;
+  
 }
 
 #currentRoute {
@@ -45,11 +47,9 @@
   -webkit-border-radius: 8px;
      -moz-border-radius: 8px;
           border-radius: 8px;
-}
 
-#floating-panel {
-  top: 10px;  /* adjust value accordingly */
-  left: 10px;
+  index: 1;
+
 }
 
 #travel_mode, #transit_mode {

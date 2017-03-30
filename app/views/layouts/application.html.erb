@@ -76,43 +76,11 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right">
             <% if current_user && !current_page?('/markers/new') %>
-                <li><%= link_to "Add Marker", "/markers/new"%></li>
-              
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-
-                  <ul class="dropdown-menu">
-                  <% if !current_page?('/location') %>
-                    <li><a href="/location">Location</a></li>
-                  <% end %>
-                  <% if current_user && !current_page?('/markers') %>
-                    <li><a href="/markers">Markers</a></li>
-                  <% end %>
-
-                  <% if current_user && current_page?('/markers') %>
-                    <li><a href="/markers?sort=nickname&sort_order=asc">Sort Name Ascending</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="/markers?sort=nickname&sort_order=desc">Sort Name Descending</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="/markers?sort=created_at&sort_order=desc">Sort Newest To Oldest</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="/markers?sort=created_at&sort_order=asc">Sort Oldest To Newest</a></li>
-                    <li role="separator" class="divider"></li>
-                    <%= form_tag "/markers", method: :get do %>
-                      <%= text_field_tag :search_term %>
-                      <%= submit_tag "Search" %>
-                    <% end %>
-                  <% end %>
-                  <% if current_user %>
-                    <li><a href="/logout">Log Out</a></li>
-                  <% else %>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="/signup">Sign Up</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="/login">Login</a></li>
-                  <% end %>
-                  </ul>
-                </li>
+                <li><%= link_to "Add Destination", "/markers/new"%></li>
+                <li><%= link_to "Polyline", "/location" %></li>
+                <li><%= link_to "Current Location", "/location2" %></li>
+                <li><a href="/logout">Log Out</a></li>
+                
             <% end %>
             
           </ul>
