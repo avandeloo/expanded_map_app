@@ -129,6 +129,7 @@
             
             var endPoint = {lat: lat, lng: lng};
             document.getElementById("currentRoute").innerHTML = route.id;
+            current_route_id = document.getElementById("currentRoute").innerHTML; 
             
             determineRoute(directionsService, directionsDisplay, startPoint, endPoint);
             
@@ -141,7 +142,7 @@
   });
   $("#reverse").click(function(){
     
-    var current_route_id = document.getElementById("currentRoute").innerHTML; 
+    current_route_id = document.getElementById("currentRoute").innerHTML; 
     function reverseRoute() {
       $.get("/api/v1/routes/"+current_route_id+".json", function(route) {
         var startPoint = { lat: parseFloat(route["destination"]["latitude"]), lng: parseFloat(route["destination"]["longitude"]) };

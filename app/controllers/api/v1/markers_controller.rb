@@ -19,7 +19,7 @@ class Api::V1::MarkersController < ApplicationController
                           user_id: current_user.id
                         )
     if @marker.save
-      render json: {message: "marker successfully created"}, status: 200
+      render :js => "window.location = '/'"
     else
       render json: {message: "marker not created"}, status: 422
     end
