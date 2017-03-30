@@ -21,24 +21,6 @@
   text-indent: -150px;
 }
 
-#address_info1 {
-  font-size: 11px;
-  text-align: center;
-  width: auto;
-  text-indent: 30px;
-}
-
-#nickname, #address_line1, #address_line2 {
-  width: 145px;
-}
-
-#address_info2 {
-  font-size: 11px;
-  text-align: center;
-  width: auto;
-  text-indent: 50px;
-}
-
 #start, #reverse, #end {
   height: 60px;
   padding: 10px 20px;
@@ -58,10 +40,6 @@
    -webkit-border-radius: 8px;
      -moz-border-radius: 8px;
           border-radius: 8px;
-}
-
-#current_route {
-  height: 0;
 }
 
 .view-link, .warnbox-content, .warnbox-content-c1, .warnbox-content-c2, .warnbox-c1, .warnbox-c2, .adp-legal {
